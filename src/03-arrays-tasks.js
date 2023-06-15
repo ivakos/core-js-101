@@ -36,8 +36,9 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  // eslint-disable-next-line max-len
-  return Array.from({ length: len * 2 }).map((item, index) => index).filter((item) => item % 2 !== 0);
+  return Array.from({ length: len * 2 })
+    .map((item, index) => index)
+    .filter((item) => item % 2 !== 0);
 }
 
 
@@ -423,8 +424,16 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort((a, b) => {
+    if (a.country !== b.country) {
+      return a.country.localeCompare(b.country);
+    }
+    if (a.city !== b.city) {
+      return a.city.localeCompare(b.city);
+    }
+    return 0;
+  });
 }
 
 /**
@@ -445,8 +454,10 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-
+function getIdentityMatrix(n) {
+  return Array(n).fill(undefined)
+    .map((item1, i) => Array(n)
+      .fill(undefined).map((item2, j) => (i === j ? 1 : 0)));
 }
 
 /**
@@ -462,8 +473,8 @@ function getIdentityMatrix(/* n */) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  return Array(end - start + 1).fill(undefined).map((item, index) => start + index);
 }
 
 /**
@@ -529,8 +540,8 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], (x) => x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.flatMap((item) => (childrenSelector(item)));
 }
 
 
@@ -546,8 +557,8 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  return arr.flat(Infinity)[indexes.reduce((acc, cur) => acc + cur)];
 }
 
 
