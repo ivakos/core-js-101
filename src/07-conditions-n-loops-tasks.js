@@ -261,8 +261,25 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const number = String(ccn).split('');
+
+  const checkNumber = +number[number.length - 1] || 10;
+  let res = number.slice(0, -1).reverse();
+
+  res = res.map((item, index) => {
+    if (index % 2 === 0) {
+      // eslint-disable-next-line no-param-reassign
+      item *= 2;
+      if (item > 9) {
+        // eslint-disable-next-line no-param-reassign
+        item = String(item).split('').reduce((acc, cur) => acc + +cur, 0);
+      }
+    }
+    return +item;
+  }).reduce((acc, cur) => acc + cur, 0);
+
+  return (10 - (res % 10)) === checkNumber;
 }
 
 /**
@@ -306,8 +323,35 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stream = str.split('');
+  const brackets = [['(', ')'], ['{', '}'], ['[', ']'], ['<', '>']];
+  const stack = [];
+
+  for (let i = 0; i < stream.length; i += 1) {
+    if (!stack.length) {
+      stack.push(stream[i]);
+    } else {
+      const currBracket = stream[i];
+      let currPairBracket;
+
+      for (let j = 0; j < brackets.length; j += 1) {
+        if (stream[i] === brackets[j][1]) {
+          // eslint-disable-next-line prefer-destructuring
+          currPairBracket = brackets[j][0];
+        }
+      }
+
+      if (currPairBracket) {
+        if (stack[stack.length - 1] === currPairBracket) {
+          stack.pop();
+        }
+      } else {
+        stack.push(currBracket);
+      }
+    }
+  }
+  return !stack.length;
 }
 
 
@@ -406,8 +450,42 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const test = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]];
+  let field = [];
+
+  for (let i = 0; i < 3; i += 1) {
+    field[i] = [];
+    for (let j = 0; j < 3; j += 1) {
+      if (position[i][j] !== undefined) {
+        field[i][j] = position[i][j];
+      } else {
+        field[i][j] = undefined;
+      }
+    }
+  }
+  field = field.flat();
+  for (let i = 0; i < test.length; i += 1) {
+    if (field[test[i][0]] === 'X'
+    && field[test[i][1]] === 'X'
+    && field[test[i][2]] === 'X') {
+      return 'X';
+    }
+    if (field[test[i][0]] === '0'
+    && field[test[i][1]] === '0'
+    && field[test[i][2]] === '0') {
+      return 0;
+    }
+  }
+  return undefined;
 }
 
 
